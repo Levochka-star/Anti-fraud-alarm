@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,15 +6,20 @@ using UnityEngine;
 
 public class TriggerZone : MonoBehaviour
 {
-    public event Action<Collider, bool> OnTriggerEntered;
+    //public event Action<Collider> ColliderEntering; 
+    public event Action<bool> AlarmStateChanged;
 
     private void OnTriggerEnter(Collider other)
     {
-        OnTriggerEntered?.Invoke(other, true);
+        //ColliderEntering?.Invoke(other);
+        if (other.gameObject.GetComponent<Thief>())
+            AlarmStateChanged?.Invoke(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        OnTriggerEntered?.Invoke(other, false);
+        //ColliderEntering?.Invoke(other);
+        if (other.gameObject.GetComponent<Thief>())
+            AlarmStateChanged?.Invoke(false);
     }
 }

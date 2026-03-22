@@ -148,6 +148,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10.200958, y: 4.562566, z: 14.746922}
   m_Center: {x: -0.01020813, y: 2.2813635, z: -1.9669743}
+--- !u!114 &207712513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207712503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf9f27914aa30241b339542c60eb103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sirena: {fileID: 542961693}
+  _triggerZone1: {fileID: 591717147}
 --- !u!1 &542961688
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +304,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _alarmSound: {fileID: 542961692}
-  _triggerZone: {fileID: 591717147}
   _changeVolumeSpeed: 0.25
 --- !u!1 &591717145
 GameObject:
@@ -555,7 +568,7 @@ Transform:
   m_GameObject: {fileID: 823521183}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 54.51, y: 1.4, z: 62.93}
+  m_LocalPosition: {x: 54.51, y: 1.4, z: 62.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -900,6 +913,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1000013814538730, guid: ba124179af6a3a7469f127358241673d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 207712508}
+    - targetCorrespondingSourceObject: {fileID: 1000013814538730, guid: ba124179af6a3a7469f127358241673d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 207712513}
   m_SourcePrefab: {fileID: 100100000, guid: ba124179af6a3a7469f127358241673d, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

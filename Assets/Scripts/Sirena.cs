@@ -6,11 +6,9 @@ using Assets.Scripts;
 namespace Assets.Scripts
 {
     [RequireComponent(typeof(AudioSource))]
-
     public class Sirena : MonoBehaviour
     {
         [SerializeField] private AudioSource _alarmSound;
-        [SerializeField] private TriggerZone _triggerZone;
 
         [Tooltip("Скорость изменения громкости сигнализации.")]
         [SerializeField][Range(0.01f, 1f)] private float _changeVolumeSpeed = 0.25f;
@@ -19,6 +17,11 @@ namespace Assets.Scripts
 
         private float _minVolumeAlarm = 0f;
         private float _maxVolumeAlarm = 1f;
+
+        private void Start()
+        {
+            _alarmSound.volume = _minVolumeAlarm;
+        }
 
         private void Stop()
         {
@@ -29,53 +32,46 @@ namespace Assets.Scripts
             }
         }
 
-        private void OnEnable()
-        {
-            _triggerZone.OnTriggerEntered += Work;
-        }
-
-        private void OnDisable()
-        {
-            _triggerZone.OnTriggerEntered -= Work;
-        }
-
-        private void Work(Collider collider, bool isInside)
+        public void Work(bool isInside)
         {
             Stop();
+            bool isGrow;
 
-            if (collider.gameObject.GetComponent<Thief>() && isInside)
+            if (isInside)
             {
-                _alarmCoroutine = StartCoroutine(FadeInVolume(_maxVolumeAlarm));
+                isGrow = true;
+                _alarmCoroutine = StartCoroutine(FadeVolume(_maxVolumeAlarm, isGrow));
             }
-            else if (collider.gameObject.GetComponent<Thief>() && isInside == false)
+            else if (isInside == false)
             {
-                _alarmCoroutine = StartCoroutine(FadeOutVolume(_minVolumeAlarm));
-            }
-        }
-
-        private IEnumerator FadeInVolume(float target)
-        {
-            _alarmSound.volume = _minVolumeAlarm;
-            _alarmSound.Play();
-
-            while (_alarmSound.volume < target)
-            {
-                _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, target, _changeVolumeSpeed * Time.deltaTime);
-
-                yield return null;
+                isGrow = false;
+                _alarmCoroutine = StartCoroutine(FadeVolume(_minVolumeAlarm, isGrow));
             }
         }
 
-        private IEnumerator FadeOutVolume(float target)
+        private IEnumerator FadeVolume(float target, bool isGrow)
         {
-            while (_alarmSound.volume > target)
+            if (isGrow)
             {
-                _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, target, _changeVolumeSpeed * Time.deltaTime);
+                _alarmSound.Play();
+                while (_alarmSound.volume < target)
+                {
+                    _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, target, _changeVolumeSpeed * Time.deltaTime);
 
-                yield return null;
+                    yield return null;
+                }
             }
+            else if (isGrow == false)
+            {
+                while (_alarmSound.volume > target)
+                {
+                    _alarmSound.volume = Mathf.MoveTowards(_alarmSound.volume, target, _changeVolumeSpeed * Time.deltaTime);
 
-            _alarmSound.Stop();
+                    yield return null;
+                }
+
+                _alarmSound.Stop();
+            }
         }
     }
 }
